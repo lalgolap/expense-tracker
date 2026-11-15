@@ -1,0 +1,30 @@
+.table-scroll { overflow-x: auto; border-top: 1px solid #f1f2f6; }
+.expense-table { width: 100%; border-collapse: collapse; text-align: left; }
+.expense-table th { padding: 10px 8px; color: #858b9b; font-size: 9px; font-weight: 650; white-space: nowrap; }
+.expense-table td { padding: 11px 8px; border-top: 1px solid #f1f2f6; color: #596176; font-size: 10px; }
+.expense-table th:first-child, .expense-table td:first-child { padding-left: 2px; }
+.expense-table .amount-column { text-align: right; white-space: nowrap; }
+.date-cell { white-space: nowrap; }
+.description-cell { display: grid; min-width: 90px; gap: 4px; }
+.description-cell strong { overflow: hidden; color: #41495e; font-size: 10px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.description-cell small { overflow: hidden; color: #a2a7b4; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.category-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; border-radius: 6px; font-size: 9px; white-space: nowrap; }
+.food { color: #b67a44; background: #fff3e5; }
+.transport { color: #4d91a4; background: #e9f6f7; }
+.shopping { color: #8e70bb; background: #f3edfb; }
+.bills { color: #6c7eb2; background: #eef1fb; }
+.health { color: #54a18b; background: #e9f7f1; }
+.other { color: #ca8b6d; background: #fff0e9; }
+.expense-amount { color: #41495e !important; font-weight: 650; }
+.row-actions { display: flex; justify-content: flex-end; gap: 1px; }
+.row-actions button { display: grid; width: 27px; height: 27px; place-items: center; border: 0; border-radius: 6px; color: #8e94a4; background: transparent; cursor: pointer; }
+.row-actions button:hover { color: #625fce; background: #f2f1ff; }
+.row-actions button:last-child:hover { color: #d76677; background: #fff0f1; }
+.row-actions svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.empty-state { display: grid; min-height: 190px; align-content: center; justify-items: center; padding: 20px; border-top: 1px solid #f1f2f6; text-align: center; }
+.empty-icon { display: grid; width: 48px; height: 48px; margin-bottom: 12px; place-items: center; border-radius: 14px; color: #7773df; background: #f2f1ff; }
+.empty-icon svg { width: 29px; height: 29px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.empty-state strong { color: #50586c; font-size: 11px; font-weight: 650; }
+.empty-state p { margin: 6px 0 0; color: #a1a6b3; font-size: 10px; }
+
+@media (max-width: 560px) { .expense-table th, .expense-table td { padding-right: 5px; padding-left: 5px; } .row-actions button { width: 24px; } }
