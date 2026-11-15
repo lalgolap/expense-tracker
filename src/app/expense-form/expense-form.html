@@ -1,0 +1,112 @@
+<form class="expense-form" (ngSubmit)="submit()" #expenseForm="ngForm">
+  <label class="field-label" for="expense-description">What was it for?</label>
+  <input
+    id="expense-description"
+    name="description"
+    type="text"
+    placeholder="e.g. Morning coffee"
+    maxlength="80"
+    [(ngModel)]="description"
+    required
+  />
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label" for="expense-amount">Amount</label>
+      <div class="amount-input">
+        <span aria-hidden="true">₹</span>
+        <input
+          id="expense-amount"
+          name="amount"
+          type="number"
+          min="0.01"
+          step="0.01"
+          placeholder="0.00"
+          [(ngModel)]="amount"
+          required
+        />
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="expense-date">Date</label>
+      <input id="expense-date" name="date" type="date" [(ngModel)]="date" required />
+    </div>
+  </div>
+
+  <label class="field-label" for="expense-category">Category</label>
+  <select id="expense-category" name="category" [(ngModel)]="category" required>
+    @for (option of categories(); track option) {
+      <option [value]="option">{{ option }}</option>
+    }
+  </select>
+
+  <label class="field-label" for="new-expense-category">Add a category</label>
+  <div class="category-creator">
+    <input
+      id="new-expense-category"
+      name="newCategory"
+      type="text"
+      maxlength="40"
+      placeholder="e.g. Pet care"
+      [(ngModel)]="newCategory"
+      [attr.aria-invalid]="categoryError ? 'true' : null"
+      aria-describedby="category-error"
+    />
+    <button class="add-category-button" type="button" (click)="addCategory()">Add</button>
+  </div>
+  @if (categoryError) {
+    <p class="category-error" id="category-error" role="alert">{{ categoryError }}</p>
+  }
+
+  @if (customCategories().length) {
+    <p class="field-label category-management-label">Manage custom categories</p>
+    <ul class="category-management-list">
+      @for (option of customCategories(); track option) {
+        <li class="category-management-item">
+          @if (editingCategory === option) {
+            <input
+              [name]="'editCategory-' + option"
+              type="text"
+              maxlength="40"
+              [(ngModel)]="categoryNameDraft"
+              [attr.aria-label]="'Rename ' + option"
+            />
+            <button class="category-action-button" type="button" (click)="saveCategoryEdit()">Save</button>
+            <button class="category-action-button" type="button" (click)="cancelCategoryEdit()">Cancel</button>
+          } @else {
+            <span class="category-management-name">{{ option }}</span>
+            <button class="category-action-button" type="button" (click)="startEditingCategory(option)">Edit</button>
+            <button
+              class="category-action-button delete-category-button"
+              type="button"
+              (click)="deleteCategory(option)"
+              [attr.aria-label]="'Delete ' + option + ' category'"
+            >Delete</button>
+          }
+        </li>
+      }
+    </ul>
+    @if (categoryManagementError) {
+      <p class="category-error" role="alert">{{ categoryManagementError }}</p>
+    }
+  }
+
+  <label class="field-label note-label" for="expense-note">Note <span>Optional</span></label>
+  <textarea
+    id="expense-note"
+    name="note"
+    rows="2"
+    maxlength="180"
+    placeholder="Add a little context..."
+    [(ngModel)]="note"
+  ></textarea>
+
+  <div class="form-actions">
+    @if (expense) {
+      <button class="cancel-button" type="button" (click)="cancel()">Cancel</button>
+    }
+    <button class="submit-button" type="submit" [disabled]="expenseForm.invalid">
+      {{ expense ? 'Save changes' : 'Add expense' }}
+    </button>
+  </div>
+</form>

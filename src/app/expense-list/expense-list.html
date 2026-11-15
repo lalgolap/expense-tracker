@@ -1,0 +1,72 @@
+@if (expenses.length) {
+  <div class="table-scroll">
+    <table class="expense-table">
+      @if (period === 'yearly') {
+        <thead>
+          <tr>
+            <th scope="col">Month</th>
+            <th scope="col" class="amount-column">Total spent</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (summary of monthlyTotals; track summary.month) {
+            <tr class="month-summary-row">
+              <td>{{ summary.month + '-01' | date:'MMMM' }}</td>
+              <td class="amount-column expense-amount">{{ summary.total | currency:'INR':'symbol':'1.2-2':'en-IN' }}</td>
+            </tr>
+          }
+        </tbody>
+      } @else {
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Category</th>
+            <th scope="col" class="amount-column">Amount</th>
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (expense of expenses; track expense.id) {
+            <tr>
+              <td class="date-cell">{{ expense.date | date:'MMM d, y' }}</td>
+              <td>
+                <div class="description-cell">
+                  <strong>{{ expense.description }}</strong>
+                  @if (expense.note) {
+                    <small>{{ expense.note }}</small>
+                  }
+                </div>
+              </td>
+              <td>
+                <span class="category-badge" [class]="categoryColor(expense.category)">
+                  <span aria-hidden="true">{{ categoryIcon(expense.category) }}</span>
+                  {{ expense.category }}
+                </span>
+              </td>
+              <td class="amount-column expense-amount">−{{ expense.amount | currency:'INR':'symbol':'1.2-2':'en-IN' }}</td>
+              <td>
+                <div class="row-actions">
+                  <button type="button" [attr.aria-label]="'Edit ' + expense.description" title="Edit expense" (click)="editExpense.emit(expense)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5 5 5M4 20l4.2-.8L19 8.4 15.6 5 4.8 15.8 4 20Z"/></svg>
+                  </button>
+                  <button type="button" [attr.aria-label]="'Delete ' + expense.description" title="Delete expense" (click)="deleteExpense.emit(expense)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9 7V4.5h6V7m2.5 0-.8 13h-9.4L6.5 7m3.5 3.5v6m4-6v6"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
+    </table>
+  </div>
+} @else {
+  <div class="empty-state">
+    <span class="empty-icon" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><rect x="9" y="11" width="30" height="27" rx="5"/><path d="M9 18h30M16 26h7m-7 6h14"/></svg>
+    </span>
+    <strong>{{ hasExpenses ? 'No matching expenses' : 'Your story starts here' }}</strong>
+    <p>{{ hasExpenses ? 'Try a different search or category.' : 'Add your first expense to see it here.' }}</p>
+  </div>
+}
